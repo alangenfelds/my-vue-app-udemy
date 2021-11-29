@@ -1,13 +1,14 @@
 <template>
-  <header>My Friends</header>
   <section>
-    <!-- <h2>My Friends</h2> -->
+    <header><h1>My Friends</h1></header>
+    <new-friend @add-contact="handleAddContact"></new-friend>
     <ul>
       <friend-contact
         v-for="friend in friends"
         :key="friend.id"
         :friend="friend"
         @toggle-favorite-clicked="toggleFavorite"
+        @delete-contact="deleteContact"
       ></friend-contact>
     </ul>
   </section>
@@ -15,8 +16,9 @@
 
 <script>
 import FriendContact from "./components/FriendContact.vue";
+import NewFriend from "./components/NewFriend.vue";
 export default {
-  components: { FriendContact },
+  components: { FriendContact, NewFriend },
   data() {
     return {
       friends: [
@@ -42,6 +44,20 @@ export default {
       console.log("Toggle Favorite Clicked in Child", friendId);
       const friend = this.friends.find((friend) => friend.id === friendId);
       friend.isFavorite = !friend.isFavorite;
+    },
+    handleAddContact(contact) {
+      this.friends.push({
+        ...contact,
+        isFavorite: false,
+        id: new Date().toISOString(),
+      });
+    },
+    deleteContact(id) {
+      // this.friends.splice(
+      //   this.friends.findIndex((friend) => friend.id === id),
+      //   1
+      // );
+      this.friends = this.friends.filter((friend) => friend.id !== id);
     },
   },
 };
@@ -80,7 +96,8 @@ header {
   list-style: none;
 }
 
-#app li {
+#app li,
+#app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
@@ -112,5 +129,19 @@ header {
   background-color: #ec3169;
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+
+#app input {
+  font: inherit;
+  padding: 0.15rem;
+}
+#app label {
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+#app form div {
+  margin: 1rem 0;
 }
 </style>

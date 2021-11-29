@@ -9,6 +9,7 @@
       <li><strong>Phone:</strong> {{ friend.phone }}</li>
       <li><strong>Email:</strong> {{ friend.email }}</li>
     </ul>
+    <button @click="$emit('delete-contact', friend.id)">Delete</button>
   </li>
 </template>
 
@@ -32,6 +33,17 @@ export default {
       },
     },
   },
+  emits: ["toggle-favorite-clicked", "delete-contact"],
+  //   emits: {
+  //     "toggle-favorite-clicked": (id) => {
+  //       if (id) {
+  //         return true;
+  //       } else {
+  //         console.warn("Friend ID was not provided during emit");
+  //         return false;
+  //       }
+  //     },
+  //   },
   data() {
     return {
       detailsAreVisible: false,
@@ -46,6 +58,9 @@ export default {
       //   this.friendIsFavorite = !this.friendIsFavorite;
       this.$emit("toggle-favorite-clicked", this.friend.id);
     },
+    // deleteContact() {
+    //   this.$emit("delete-contact", this.friend.id);
+    // },
   },
 };
 </script>
