@@ -7,6 +7,7 @@
         v-for="friend in friends"
         :key="friend.id"
         :friend="friend"
+        @toggle-favorite-clicked="toggleFavorite"
       ></friend-contact>
     </ul>
   </section>
@@ -24,15 +25,24 @@ export default {
           name: "Artur Lan",
           phone: "123124234",
           email: "asda@asdasda.lv",
+          isFavorite: true,
         },
         {
           id: "rebecca",
           name: "Rebecca Lan",
           phone: "5647554566",
           email: "rewerw@asdasda.lv",
+          isFavorite: true,
         },
       ],
     };
+  },
+  methods: {
+    toggleFavorite(friendId) {
+      console.log("Toggle Favorite Clicked in Child", friendId);
+      const friend = this.friends.find((friend) => friend.id === friendId);
+      friend.isFavorite = !friend.isFavorite;
+    },
   },
 };
 </script>
